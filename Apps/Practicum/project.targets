@@ -1,0 +1,23 @@
+<Project DefaultTargets="quick" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+
+	<PropertyGroup>
+		<ProjectName>Practicum</ProjectName>
+		<SolutionName>Practicum</SolutionName>
+		<SolutionFolderName>Practicum</SolutionFolderName>
+		<Platform>Any CPU</Platform>
+	</PropertyGroup>
+
+	<Import Project="..\common.environment.targets" />
+	<Import Project="..\common.compile.targets" />
+	<Import Project="..\common.analysis.targets" />
+
+	<PropertyGroup>
+		<BuildQuickDependsOn>
+			clean;
+			compile;
+			unittests;
+		</BuildQuickDependsOn>
+	</PropertyGroup>
+
+	<Target Name="quick" DependsOnTargets="$(BuildQuickDependsOn)" />
+</Project>

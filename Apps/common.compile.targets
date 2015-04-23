@@ -1,0 +1,26 @@
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+
+	<!-- Solution file -->
+	<ItemGroup>
+		<SolutionFile Include="$(SourceDir)$(SolutionName).sln" />
+	</ItemGroup>
+
+	<!-- Platform default -->
+	<PropertyGroup>
+		<Platform Condition="'$(Platform)' == ''">Any CPU</Platform>
+	</PropertyGroup>
+
+    <!-- Compile all projects in both debug and release -->
+    <Target Name="compile">
+        <CallTarget Targets="compile-debug; compile-release"/>
+    </Target>
+
+	<Target Name="compile-debug">
+		<MSBuild Projects="%(SolutionFile.FullPath)" Properties="Platform=$(Platform);Configuration=Debug" />
+	</Target>
+	
+	<Target Name="compile-release">
+		<MSBuild Projects="%(SolutionFile.FullPath)" Properties="Platform=$(Platform);Configuration=Release" />
+	</Target>
+
+</Project>

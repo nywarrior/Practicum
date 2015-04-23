@@ -1,0 +1,56 @@
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+
+	<PropertyGroup>
+		<SolutionFolderName Condition=" '$(SolutionFolderName)' == '' ">$(SolutionName)</SolutionFolderName>
+		<SolutionDir>$(MSBuildThisFileDirectory)$(SolutionFolderName)</SolutionDir>
+		<SourceDir>$(SolutionDir)\Src\</SourceDir>
+		<LibDir>$(SolutionDir)\Lib\</LibDir>
+		<ToolsDir>$(SolutionDir)\..\..\Tools\</ToolsDir>
+		<OutputDirectory>$(SolutionDir)\Build</OutputDirectory>
+		<TargetEnvironment>dev</TargetEnvironment>
+		<BuildVersion>1.0.0.0</BuildVersion>
+	</PropertyGroup>
+
+	<Import Project="$(ToolsDir)MSBuildExtensionPack\MSBuild.ExtensionPack.tasks"/>
+
+	<Target Name="clean">
+		<ItemGroup>
+			<BinFiles Include="$(SolutionDir)\**\bin\**\*" Exclude="$(ToolsDir)**\*"/>
+			<ObjFiles Include="$(SolutionDir)\**\obj\**\*" />
+			<BinDirectories Include="@(BinFiles->'%(RootDir)%(Directory)')" />
+			<ObjDirectories Include="@(ObjFiles->'%(RootDir)%(Directory)')" />
+			<BuildDirectory Include="$(OutputDirectory)" />
+		</ItemGroup>
+		<RemoveDir Directories="%(BinDirectories.RelativeDir)" Condition="Exists('%(BinDirectories.RelativeDir)')" ContinueOnError="true" />
+		<RemoveDir Directories="%(ObjDirectories.RelativeDir)" Condition="Exists('%(ObjDirectories.RelativeDir)')" ContinueOnError="true" />
+		<RemoveDir Directories="@(BuildDirectory)" Condition="Exists('@(BuildDirectory)')" ContinueOnError="false" />
+	</Target>
+
+	<Target Name="config">
+		<ItemGroup>
+			<AppConfigFiles Include="$(SolutionDir)/**/$(TargetEnvironment).App.config"/>
+		</ItemGroup>
+		<Copy SourceFiles="@(AppConfigFiles)" DestinationFiles="%(RelativeDir)App.config" Condition="Exists('%(FullPath)')"/>
+	</Target>
+
+	<Target Name="rollbackconfig">
+		<ItemGroup>
+			<AppConfigFiles Include="$(SolutionDir)/**/dev.App.config"/>
+		</ItemGroup>
+		<Copy SourceFiles="@(AppConfigFiles)" DestinationFiles="%(RelativeDir)App.config" Condition="Exists('%(FullPath)')"/>
+	</Target>
+	<Target Name="help">
+		<Message Text="Available targets:" />
+		<Message Text=" clean            - remove all previous output" />
+		<Message Text=" compile          - compile the solution" />
+		<Message Text=" config           - configure the development environment" />
+		<Message Text=" cruisecontrol    - used by ccnet" />
+		<Message Text=" doc              - generate documentation" />
+		<Message Text=" full             - clean, quick, doc, package" />
+		<Message Text=" help             - display this notice" />
+		<Message Text=" installer        - create the installer" />
+		<Message Text=" quick            - compile, test, fxcop" />
+		<Message Text=" unittests        - run unit tests" />
+	</Target>
+
+</Project>

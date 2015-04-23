@@ -1,0 +1,27 @@
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+
+	<PropertyGroup>
+		<MSTestOutputFileName>mstestresults.xml</MSTestOutputFileName>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<TestsDirectory Include="$(OutputDirectory)\Tests" />
+	</ItemGroup>
+	
+	<Target Name="unittests">
+		<PropertyGroup>
+			<UnitTestAssemblies>$(SourceDir)\**\bin\Debug\*.Tests.dll</UnitTestAssemblies>
+		</PropertyGroup>
+		<ItemGroup>
+			<AssembliesToTest Include="$(UnitTestAssemblies)"/>
+		</ItemGroup>
+		<MakeDir Directories="%(TestsDirectory.FullPath)" Condition="!Exists('%(TestsDirectory.FullPath)')" />
+		<Delete Files="%(TestsDirectory.FullPath)\$(MSTestOutputFileName)" Condition="Exists('%(TestsDirectory.FullPath)\$(MSTestOutputFileName)')" ContinueOnError="true" />
+		<CreateProperty Value="&quot;$(SourceDir)localtestrun.testsettings&quot;">
+			<Output TaskParameter="Value" PropertyName="TestConfigFile"/>
+		</CreateProperty>
+		<Message Text="mstest.exe /testcontainer:&quot;%(TestsDirectory.FullPath)\bin\Release\Practicum.UnitTests.dll&quot; /runconfig:$(TestConfigFile) /resultsfile:&quot;@(TestsDirectory)\$(MSTestOutputFileName)&quot;" />
+		<Exec Command="mstest.exe /testcontainer:&quot;%(TestsDirectory.FullPath)\bin\Release\Practicum.UnitTests.dll&quot; /runconfig:$(TestConfigFile) /resultsfile:&quot;@(TestsDirectory)\$(MSTestOutputFileName)&quot; /detail:duration" ContinueOnError="false" />
+	</Target>
+	
+</Project>
