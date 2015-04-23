@@ -1,6 +1,6 @@
 ﻿using Practicum.Entities;
 
-namespace Practicum
+namespace Practicum.Components
 {
     /// <summary>
     /// 

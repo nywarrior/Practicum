@@ -1,8 +1,11 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using Autofac;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Practicum.Components;
 using Practicum.Entities;
 
-namespace Practicum.UnitTests
+namespace Practicum.Tests
 {
     /// <summary>
     /// 
@@ -56,6 +59,19 @@ namespace Practicum.UnitTests
             };
             var dishesOutputString = OutputWriter.ComputeDishesString(dishes);
             Assert.AreEqual("steak, potato(x2), cake", dishesOutputString);
+        }
+
+        private static IOutputWriter OutputWriter
+        {
+            get
+            {
+                var outputWriter = ContainerManager.Container.Resolve<IOutputWriter>();
+                if (outputWriter == null)
+                {
+                    throw new InvalidOperationException("Cannot Resolve IOutputWriter.");
+                }
+                return outputWriter;
+            }
         }
     }
 }

@@ -1,10 +1,11 @@
 ﻿using System;
 using Autofac;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Practicum.Components;
 using Practicum.Entities;
-using Practicum.Exceptions;
+using Practicum.Entities.Exceptions;
 
-namespace Practicum.UnitTests
+namespace Practicum.Tests
 {
     /// <summary>
     /// 

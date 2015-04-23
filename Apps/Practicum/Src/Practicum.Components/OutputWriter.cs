@@ -4,7 +4,7 @@ using System.Text;
 using Autofac;
 using Practicum.Entities;
 
-namespace Practicum
+namespace Practicum.Components
 {
     public class OutputWriter : IOutputWriter
     {
@@ -25,7 +25,7 @@ namespace Practicum
         /// <param name="dishes"></param>
         /// <param name="hasError"></param>
         /// <returns></returns>
-        public static string ComputeDishesString(List<Dish> dishes, bool hasError = false)
+        public string ComputeDishesString(List<Dish> dishes, bool hasError = false)
         {
             dishes.Sort();
             var stringBuilder = new StringBuilder();

@@ -4,7 +4,7 @@ using System.Linq;
 using Autofac;
 using Practicum.Entities;
 
-namespace Practicum
+namespace Practicum.Components
 {
     /// <summary>
     /// 

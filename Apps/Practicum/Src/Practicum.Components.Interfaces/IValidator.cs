@@ -1,13 +1,13 @@
-﻿namespace Practicum
+﻿namespace Practicum.Components
 {
     /// <summary>
     /// 
     /// </summary>
-    public interface IOutputWriter
+    public interface IValidator
     {
         /// <summary>
         /// 
         /// </summary>
-        void WriteOutput();
+        void ValidateMeal();
     }
 }

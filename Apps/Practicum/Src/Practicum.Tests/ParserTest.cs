@@ -1,9 +1,10 @@
 ﻿using System;
 using Autofac;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Practicum.Components;
 using Practicum.Entities;
 
-namespace Practicum.UnitTests
+namespace Practicum.Tests
 {
     /// <summary>
     /// 
@@ -184,7 +185,7 @@ namespace Practicum.UnitTests
             Assert.AreEqual(DishType.Entree, dish.DishType);
             Assert.AreEqual(DishValue.Steak, dish.DishValue);
             Assert.AreEqual(1, dish.Count);
-             Assert.IsTrue(meal.HasError);
+            Assert.IsTrue(meal.HasError);
         }
 
         private static IParser Parser

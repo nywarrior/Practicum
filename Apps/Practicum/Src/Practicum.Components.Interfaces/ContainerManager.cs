@@ -1,7 +1,7 @@
 ﻿using System;
 using Autofac;
 
-namespace Practicum
+namespace Practicum.Components
 {
     /// <summary>
     /// 

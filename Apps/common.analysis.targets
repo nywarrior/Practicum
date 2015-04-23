@@ -20,8 +20,8 @@
 		<CreateProperty Value="&quot;$(SourceDir)localtestrun.testsettings&quot;">
 			<Output TaskParameter="Value" PropertyName="TestConfigFile"/>
 		</CreateProperty>
-		<Message Text="mstest.exe /testcontainer:&quot;%(TestsDirectory.FullPath)\bin\Release\Practicum.UnitTests.dll&quot; /runconfig:$(TestConfigFile) /resultsfile:&quot;@(TestsDirectory)\$(MSTestOutputFileName)&quot;" />
-		<Exec Command="mstest.exe /testcontainer:&quot;%(TestsDirectory.FullPath)\bin\Release\Practicum.UnitTests.dll&quot; /runconfig:$(TestConfigFile) /resultsfile:&quot;@(TestsDirectory)\$(MSTestOutputFileName)&quot; /detail:duration" ContinueOnError="false" />
+		<Message Text="mstest.exe /testcontainer:&quot;%(TestsDirectory.FullPath)\bin\Release\Practicum.Tests.dll&quot; /runconfig:$(TestConfigFile) /resultsfile:&quot;@(TestsDirectory)\$(MSTestOutputFileName)&quot;" />
+		<Exec Command="mstest.exe /testcontainer:&quot;%(TestsDirectory.FullPath)\bin\Release\Practicum.Tests.dll&quot; /runconfig:$(TestConfigFile) /resultsfile:&quot;@(TestsDirectory)\$(MSTestOutputFileName)&quot; /detail:duration" ContinueOnError="false" />
 	</Target>
 	
 </Project>

@@ -2,9 +2,9 @@
 using System.Linq;
 using Autofac;
 using Practicum.Entities;
-using Practicum.Exceptions;
+using Practicum.Entities.Exceptions;
 
-namespace Practicum
+namespace Practicum.Components
 {
     /// <summary>
     /// 

@@ -1,5 +1,6 @@
 ﻿using System;
 using Autofac;
+using Practicum.Components;
 
 namespace Practicum
 {

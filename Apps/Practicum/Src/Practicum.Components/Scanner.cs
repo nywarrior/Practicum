@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Practicum
+namespace Practicum.Components
 {
     /// <summary>
     /// 

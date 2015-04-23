@@ -1,17 +1,17 @@
 ﻿using System;
 
-namespace Practicum.Exceptions
+namespace Practicum.Entities.Exceptions
 {
     /// <summary>
     /// 
     /// </summary>
-    public class InvalidMealTimeException : Exception
+    public class InvalidDishesException : Exception
     {
         /// <summary>
         /// 
         /// </summary>
         /// <param name="message"></param>
-        public InvalidMealTimeException(string message)
+        public InvalidDishesException(string message)
             : base(message)
         {
         }

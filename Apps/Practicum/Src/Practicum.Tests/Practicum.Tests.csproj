@@ -6,8 +6,8 @@
     <ProjectGuid>{3682CCA2-4BA4-4F9A-B021-5B8E58F637EF}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Practicum.UnitTests</RootNamespace>
-    <AssemblyName>Practicum.UnitTests</AssemblyName>
+    <RootNamespace>Practicum.Tests</RootNamespace>
+    <AssemblyName>Practicum.Tests</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{3AC096D0-A1C2-E12C-1390-A8335801FDAB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
@@ -59,13 +59,36 @@
     <Compile Include="ValidatorTest.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Practicum.Components.Interfaces\Practicum.Components.Interfaces.csproj">
+      <Project>{fe6aba37-f511-4c67-b177-e73a017446ac}</Project>
+      <Name>Practicum.Components.Interfaces</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Practicum.csproj">
       <Project>{1725c27a-7985-413a-a60e-c4bdc4d460ed}</Project>
       <Name>Practicum</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Practicum.Entities\Practicum.Entities.csproj">
+      <Project>{a2006528-027e-413f-850b-8d59a47b7d8f}</Project>
+      <Name>Practicum.Entities</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <None Include="..\appsettings.config">
+      <Link>appsettings.config</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="App.config" />
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="..\Practicum.Components\bin\Debug\Practicum.Components.dll">
+      <Link>Practicum.Components.dll</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\Practicum.Components\bin\Debug\Practicum.Components.pdb">
+      <Link>Practicum.Components.pdb</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">
