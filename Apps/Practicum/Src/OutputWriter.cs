@@ -8,26 +8,13 @@ namespace Practicum
 {
     public class OutputWriter : IOutputWriter
     {
-        private readonly IMeal _meal;
-
-        /// <summary>
-        /// 
-        /// </summary>
-        public OutputWriter()
-        {
-            _meal = ContainerManager.Container.Resolve<IMeal>();
-            if (_meal == null)
-            {
-                throw new InvalidOperationException("Cannot Resolve IMeal.");
-            }
-        }
-
         /// <summary>
         /// 
         /// </summary>
         public void WriteOutput()
         {
-            var dishesString = ComputeDishesString(_meal.Dishes, _meal.HasError);
+            var meal = Meal;
+            var dishesString = ComputeDishesString(meal.Dishes, meal.HasError);
             var message = string.Format("Output: {0}", dishesString);
             Console.WriteLine(message);
         }
@@ -67,6 +54,19 @@ namespace Practicum
                 dishesString = stringBuilder.ToString();
             }
             return dishesString;
+        }
+
+        private static IMeal Meal
+        {
+            get
+            {
+                var meal = ContainerManager.Container.Resolve<IMeal>();
+                if (meal == null)
+                {
+                    throw new InvalidOperationException("Cannot Resolve IMeal.");
+                }
+                return meal;
+            }
         }
     }
 }

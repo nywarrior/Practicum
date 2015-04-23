@@ -1,17 +1,10 @@
-﻿using Practicum.Entities;
-
-namespace Practicum
+﻿namespace Practicum
 {
     /// <summary>
     /// 
     /// </summary>
     public interface IValidator
     {
-        /// <summary>
-        /// 
-        /// </summary>
-        IMeal Meal { get; }
-
         /// <summary>
         /// 
         /// </summary>

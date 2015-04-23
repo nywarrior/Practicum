@@ -12,20 +12,6 @@ namespace Practicum.UnitTests
     [TestClass]
     public class ValidatorTest
     {
-        private readonly IValidator _validator;
-
-        /// <summary>
-        /// 
-        /// </summary>
-        public ValidatorTest()
-        {
-            _validator = ContainerManager.Container.Resolve<IValidator>();
-            if (_validator == null)
-            {
-                throw new InvalidOperationException("Cannot Resolve IValidator.");
-            } 
-        }
-
         /// <summary>
         /// 
         /// </summary>
@@ -33,10 +19,10 @@ namespace Practicum.UnitTests
         [ExpectedException(typeof(InvalidMealTimeException))]
         public void TestValidateMeal1()
         {
-            // var meal = ContainerManager.Container.Resolve<IMeal>();
-            var meal = _validator.Meal;
+            var meal = Meal;
             meal.Clear();
-            _validator.ValidateMeal();
+            var validator = Validator;
+            validator.ValidateMeal();
         }
 
         /// <summary>
@@ -46,12 +32,37 @@ namespace Practicum.UnitTests
         [ExpectedException(typeof(InvalidDishesException))]
         public void TestValidateMeal2()
         {
-            // TODO: Figure out why this returns a different Container instance.
-            // var meal = ContainerManager.Container.Resolve<IMeal>();
-            var meal = _validator.Meal;
+            var meal = Meal;
             meal.Clear();
             meal.MealTime = MealTime.Morning;
-            _validator.ValidateMeal();
+            var validator = Validator;
+            validator.ValidateMeal();
+        }
+
+        private static IMeal Meal
+        {
+            get
+            {
+                var meal = ContainerManager.Container.Resolve<IMeal>();
+                if (meal == null)
+                {
+                    throw new InvalidOperationException("Cannot Resolve IMeal.");
+                }
+                return meal;
+            }
+        }
+
+        private static IValidator Validator
+        {
+            get
+            {
+                var validator = ContainerManager.Container.Resolve<IValidator>();
+                if (validator == null)
+                {
+                    throw new InvalidOperationException("Cannot Resolve IValidator.");
+                }
+                return validator;
+            }
         }
     }
 }

@@ -45,19 +45,6 @@ namespace Practicum
         };
 
         private const char WordDelimiter = ',';
-        private readonly IMeal _meal;
-
-        /// <summary>
-        /// 
-        /// </summary>
-        public Parser()
-        {
-            _meal = ContainerManager.Container.Resolve<IMeal>();
-            if (_meal == null)
-            {
-                throw new InvalidOperationException("Cannot Resolve IMeal.");
-            }
-        }
 
         /// <summary>
         /// 
@@ -69,7 +56,8 @@ namespace Practicum
             {
                 throw new InvalidOperationException("Input Line is Empty.");
             }
-            _meal.Clear();
+            var meal = Meal;
+            meal.Clear();
             var words = inputLine.Split(WordDelimiter);
             if (!words.Any())
             {
@@ -77,11 +65,25 @@ namespace Practicum
             }
             ParseMealTime(words);
             ParseDishes(words);
-            return _meal;
+            return meal;
+        }
+
+        private static IMeal Meal
+        {
+            get
+            {
+                var meal = ContainerManager.Container.Resolve<IMeal>();
+                if (meal == null)
+                {
+                    throw new InvalidOperationException("Cannot Resolve IMeal.");
+                }
+                return meal;
+            }
         }
 
         private void ParseDishes(IReadOnlyList<string> words)
         {
+            var meal = Meal;
             var dishValueDishDictionary = new Dictionary<DishValue, Dish>();
             for (var i = 1; i < words.Count; i++)
             {
@@ -91,10 +93,10 @@ namespace Practicum
                 {
                     continue;
                 }
-                var dishValue = GetDishValue(_meal.MealTime, dishType);
+                var dishValue = GetDishValue(meal.MealTime, dishType);
                 if (dishValue == DishValue.None)
                 {
-                    _meal.HasError = true;
+                    meal.HasError = true;
                     break;
                 }
                 if (dishValueDishDictionary.ContainsKey(dishValue))
@@ -102,7 +104,7 @@ namespace Practicum
                     var dish = dishValueDishDictionary[dishValue];
                     if (!(DishValueAllowMultipleOccurencesDictionary.ContainsKey(dishValue) && DishValueAllowMultipleOccurencesDictionary[dishValue]))
                     {
-                        _meal.HasError = true;
+                        meal.HasError = true;
                         break;
                     }
                     dish.Count += 1;
@@ -113,35 +115,37 @@ namespace Practicum
                     dishValueDishDictionary[dishValue] = dish;
                 }
             }
-            _meal.Dishes.Clear();
+            meal.Dishes.Clear();
             foreach (var dish in dishValueDishDictionary.Values)
             {
-                _meal.Dishes.Add(dish);
+                meal.Dishes.Add(dish);
             } 
-            _meal.Dishes.Sort();
+            meal.Dishes.Sort();
         }
 
         private DishType ParseDishType(string word)
         {
+            var meal = Meal;
             DishType dishType;
             var success = Enum.TryParse(word, out dishType);
             if (!success)
             {
-                _meal.HasError = true;
+                meal.HasError = true;
             }
             return dishType;
         }
 
         private void ParseMealTime(IReadOnlyList<string> words)
         {
+            var meal = Meal;
             var mealTypeString = words[0];
             switch (mealTypeString)
             {
                 case "morning":
-                    _meal.MealTime = MealTime.Morning;
+                    meal.MealTime = MealTime.Morning;
                     break;
                 case "night":
-                    _meal.MealTime = MealTime.Night;
+                    meal.MealTime = MealTime.Night;
                     break;
                 default:
                     var message = String.Format("Invalid Meal Time: {0}", mealTypeString);

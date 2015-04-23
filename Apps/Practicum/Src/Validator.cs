@@ -10,41 +10,35 @@ namespace Practicum
     /// 
     /// </summary>
     public class Validator : IValidator
-    { 
-        private readonly IMeal _meal;
-
-        /// <summary>
-        /// 
-        /// </summary>
-        public Validator()
-        {
-            _meal = ContainerManager.Container.Resolve<IMeal>();
-            if (_meal == null)
-            {
-                throw new InvalidOperationException("Cannot Resolve IMeal.");
-            }
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        public IMeal Meal
-        {
-            get { return _meal; }
-        }
+    {
 
         /// <summary>
         /// 
         /// </summary>
         public void ValidateMeal()
         {
-            ValidateMealTime(_meal.MealTime);
+            var meal = Meal;
+            ValidateMealTime(meal.MealTime);
             ValidateDishes();
+        }
+
+        private static IMeal Meal
+        {
+            get
+            {
+                var meal = ContainerManager.Container.Resolve<IMeal>();
+                if (meal == null)
+                {
+                    throw new InvalidOperationException("Cannot Resolve IMeal.");
+                }
+                return meal;
+            }
         }
 
         private void ValidateDishes()
         {
-            if ((!_meal.HasError) && (!_meal.Dishes.Any()))
+            var meal = Meal;
+            if ((!meal.HasError) && (!meal.Dishes.Any()))
             {
                 var message = string.Format("Meals must have at least 1 valid dish.");
                 throw new InvalidDishesException(message);

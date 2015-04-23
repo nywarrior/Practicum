@@ -8,38 +8,6 @@ namespace Practicum
     /// </summary>
     internal class PracticumRunner
     {
-        private readonly IScanner _scanner;
-        private readonly IParser _parser;
-        private readonly IValidator _validator;
-        private readonly IOutputWriter _outputWriter;
-
-        /// <summary>
-        /// 
-        /// </summary>
-        public PracticumRunner()
-        {
-            _scanner = ContainerManager.Container.Resolve<IScanner>();
-            if (_scanner == null)
-            {
-                throw new InvalidOperationException("Cannot Resolve IScanner.");
-            }
-            _parser = ContainerManager.Container.Resolve<IParser>();
-            if (_parser == null)
-            {
-                throw new InvalidOperationException("Cannot Resolve IParser.");
-            }
-            _validator = ContainerManager.Container.Resolve<IValidator>();
-            if (_validator == null)
-            {
-                throw new InvalidOperationException("Cannot Resolve IValidator.");
-            }
-            _outputWriter = ContainerManager.Container.Resolve<IOutputWriter>();
-            if (_outputWriter == null)
-            {
-                throw new InvalidOperationException("Cannot Resolve IOutputWriter.");
-            }
-        }
-
         /// <summary>
         /// 
         /// </summary>
@@ -60,12 +28,68 @@ namespace Practicum
             // ReSharper disable once FunctionNeverReturns
         }
 
-        private void ProcessLine()
+        private static void ProcessLine()
         {
-            var inputLine = _scanner.ReadInputLine();
-            _parser.ParseMeal(inputLine);
-            _validator.ValidateMeal();
-            _outputWriter.WriteOutput();
+            var scanner = Scanner;
+            var inputLine = scanner.ReadInputLine();
+            var parser = Parser;
+            parser.ParseMeal(inputLine);
+            var validator = Validator;
+            validator.ValidateMeal();
+            var outputWriter = OutputWriter;
+            outputWriter.WriteOutput();
+        }
+
+        private static IScanner Scanner
+        {
+            get
+            {
+                var scanner = ContainerManager.Container.Resolve<IScanner>();
+                if (scanner == null)
+                {
+                    throw new InvalidOperationException("Cannot Resolve IScanner.");
+                }
+                return scanner;
+            }
+        }
+
+        private static IParser Parser
+        {
+            get
+            {
+                var parser = ContainerManager.Container.Resolve<IParser>();
+                if (parser == null)
+                {
+                    throw new InvalidOperationException("Cannot Resolve IParser.");
+                }
+                return parser;
+            }
+        }
+
+        private static IValidator Validator
+        {
+            get
+            {
+                var validator = ContainerManager.Container.Resolve<IValidator>();
+                if (validator == null)
+                {
+                    throw new InvalidOperationException("Cannot Resolve IValidator.");
+                }
+                return validator;
+            }
+        }
+
+        private static IOutputWriter OutputWriter
+        {
+            get
+            {
+                var outputWriter = ContainerManager.Container.Resolve<IOutputWriter>();
+                if (outputWriter == null)
+                {
+                    throw new InvalidOperationException("Cannot Resolve IOutputWriter.");
+                }
+                return outputWriter;
+            }
         }
     }
 }

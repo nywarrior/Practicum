@@ -11,20 +11,6 @@ namespace Practicum.UnitTests
     [TestClass]
     public class ParserTest
     {
-        private readonly IParser _parser;
-
-        /// <summary>
-        /// 
-        /// </summary>
-        public ParserTest()
-        {
-            _parser = ContainerManager.Container.Resolve<IParser>();
-            if (_parser == null)
-            {
-                throw new InvalidOperationException("Cannot Resolve IParser.");
-            }
-        }
-
         /// <summary>
         /// 
         /// </summary>
@@ -32,7 +18,10 @@ namespace Practicum.UnitTests
         public void TestParseMeal1()
         {
             const string inputLine = "morning,1,2,3";
-            var meal = _parser.ParseMeal(inputLine);
+            var parser = Parser;
+            var meal = parser.ParseMeal(inputLine);
+            var meal2 = ContainerManager.Container.Resolve<IMeal>();
+            Assert.AreEqual(meal, meal2);
             Assert.AreEqual(MealTime.Morning, meal.MealTime);
             Assert.AreEqual(3, meal.Dishes.Count);
             var dish = meal.Dishes[0];
@@ -56,7 +45,8 @@ namespace Practicum.UnitTests
         public void TestParseMeal2()
         {
             const string inputLine = "morning, 2, 1, 3";
-            var meal = _parser.ParseMeal(inputLine);
+            var parser = Parser;
+            var meal = parser.ParseMeal(inputLine);
             Assert.AreEqual(MealTime.Morning, meal.MealTime);
             Assert.AreEqual(3, meal.Dishes.Count);
             var dish = meal.Dishes[0];
@@ -80,7 +70,8 @@ namespace Practicum.UnitTests
         public void TestParseMeal3()
         {
             const string inputLine = "morning, 1, 2, 3, 4";
-            var meal = _parser.ParseMeal(inputLine);
+            var parser = Parser;
+            var meal = parser.ParseMeal(inputLine);
             Assert.AreEqual(MealTime.Morning, meal.MealTime);
             Assert.AreEqual(3, meal.Dishes.Count);
             var dish = meal.Dishes[0];
@@ -105,7 +96,8 @@ namespace Practicum.UnitTests
         public void TestParseMeal5()
         {
             const string inputLine = "night, 1, 2, 3, 4";
-            var meal = _parser.ParseMeal(inputLine);
+            var parser = Parser;
+            var meal = parser.ParseMeal(inputLine);
             Assert.AreEqual(MealTime.Night, meal.MealTime);
             Assert.AreEqual(meal.Dishes.Count, 4);
             var dish = meal.Dishes[0];
@@ -133,7 +125,8 @@ namespace Practicum.UnitTests
         public void TestParseMeal6()
         {
             const string inputLine = "night, 1, 2, 2, 4";
-            var meal = _parser.ParseMeal(inputLine);
+            var parser = Parser;
+            var meal = parser.ParseMeal(inputLine);
             Assert.AreEqual(MealTime.Night, meal.MealTime);
             Assert.AreEqual(3, meal.Dishes.Count);
             var dish = meal.Dishes[0];
@@ -157,7 +150,8 @@ namespace Practicum.UnitTests
         public void TestParseMeal7()
         {
             const string inputLine = "night, 1, 2, 3, 5";
-            var meal = _parser.ParseMeal(inputLine);
+            var parser = Parser;
+            var meal = parser.ParseMeal(inputLine);
             Assert.AreEqual(MealTime.Night, meal.MealTime);
             Assert.AreEqual(3, meal.Dishes.Count);
             var dish = meal.Dishes[0];
@@ -182,7 +176,8 @@ namespace Practicum.UnitTests
         public void TestParseMeal8()
         {
             const string inputLine = "night, 1, 1, 2, 3, 5";
-            var meal = _parser.ParseMeal(inputLine);
+            var parser = Parser;
+            var meal = parser.ParseMeal(inputLine);
             Assert.AreEqual(MealTime.Night, meal.MealTime);
             Assert.AreEqual(1, meal.Dishes.Count);
             var dish = meal.Dishes[0];
@@ -190,6 +185,19 @@ namespace Practicum.UnitTests
             Assert.AreEqual(DishValue.Steak, dish.DishValue);
             Assert.AreEqual(1, dish.Count);
              Assert.IsTrue(meal.HasError);
+        }
+
+        private static IParser Parser
+        {
+            get
+            {
+                var parser = ContainerManager.Container.Resolve<IParser>();
+                if (parser == null)
+                {
+                    throw new InvalidOperationException("Cannot Resolve IParser.");
+                }
+                return parser;
+            }
         }
     }
 }
